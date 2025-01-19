@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432" # Exposes the PostgreSQL service to the host
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "80:3000" # Maps port 3000 on Grafana to port 80 on the host
+    networks:
+      - monitoring
+    depends_on:
+      - postgres
+networks:
+  monitoring:
+    driver: bridge
